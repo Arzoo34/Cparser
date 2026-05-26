@@ -3,11 +3,13 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>C Parser Visualizer — Phase 4: Intermediate Code Generation</title>
   <meta name="description"
     content="Interactive C language parser — lexical tokenizer, syntax tree, semantic analyzer, and three-address code generator." />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="shared-ui.css" />
 </head>
 
 <body>
@@ -15,7 +17,7 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-brand">
-      <div class="nav-logo">C</div>
+      <a href="index.html" class="nav-logo" title="Home">C</a>
       <div>
         <div class="nav-title">C Parser Visualizer</div>
         <div class="nav-subtitle">Educational Compiler Tool — Phase 4</div>
@@ -23,18 +25,30 @@
     </div>
 
     <div class="nav-right">
-      <a href="index.html" class="nav-learn-btn" title="Learn Compiler Design Phases">
+      <a href="index.html" class="nav-learn-btn" title="Home">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Home
+      </a>
+      <a href="learn.html" class="nav-learn-btn" title="Learn Compiler Design Phases">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
         Learn
+      </a>
+      <a href="editor.html" class="nav-learn-btn" title="Online Code Editor">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Online Compiler
       </a>
       <div class="nav-badges">
         <span class="badge badge-live">API Live</span>
       </div>
       <button class="theme-toggle" id="theme-toggle" title="Toggle dark / light mode" aria-label="Toggle theme">
         <div class="theme-toggle-knob">
-          <span class="theme-toggle-icon" id="theme-icon">🌙</span>
+          <span class="theme-toggle-icon" id="theme-icon"></span>
         </div>
       </button>
     </div>
@@ -52,30 +66,30 @@
     <!-- Pipeline banner -->
     <div class="pipeline-bar">
       <div class="pipeline-step" id="pip-source">
-        <span class="pip-icon">📄</span>
+        <span class="pip-icon" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></span>
         <span>Source Code</span>
       </div>
-      <span class="pip-arrow">→</span>
+      <span class="pip-arrow" aria-hidden="true"></span>
       <div class="pipeline-step" id="pip-lex">
         <span class="pip-icon"></span>
         <span>Lexical Analysis</span>
       </div>
-      <span class="pip-arrow">→</span>
+      <span class="pip-arrow" aria-hidden="true"></span>
       <div class="pipeline-step" id="pip-parse">
         <span class="pip-icon"></span>
         <span>Syntax Parser</span>
       </div>
-      <span class="pip-arrow">→</span>
+      <span class="pip-arrow" aria-hidden="true"></span>
       <div class="pipeline-step" id="pip-ast">
         <span class="pip-icon"></span>
         <span>AST</span>
       </div>
-      <span class="pip-arrow">→</span>
+      <span class="pip-arrow" aria-hidden="true"></span>
       <div class="pipeline-step" id="pip-semantic">
         <span class="pip-icon"></span>
         <span>Semantic Analysis</span>
       </div>
-      <span class="pip-arrow">→</span>
+      <span class="pip-arrow" aria-hidden="true"></span>
       <div class="pipeline-step" id="pip-icg">
         <span class="pip-icon"></span>
         <span>ICG (TAC)</span>
@@ -255,7 +269,7 @@
           <!-- Collapsible Grammar panel -->
           <div class="grammar-panel">
             <button class="grammar-toggle" id="grammar-toggle" aria-expanded="false">
-              <span>📖 Supported Grammar</span>
+              <span class="heading-with-icon"><span class="ui-icon" data-icon="book"></span> Supported Grammar</span>
               <span class="grammar-arrow">▶</span>
             </button>
             <div class="grammar-body" id="grammar-body" style="display:none;">
@@ -440,7 +454,7 @@
 
           <!-- Empty state -->
           <div id="icg-empty" class="empty-state">
-            <div class="empty-icon">⚡</div>
+            <div class="empty-icon" aria-hidden="true"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
             <p>No intermediate code yet</p>
             <small>Click "Analyze" to generate Three-Address Code from the AST</small>
           </div>
@@ -452,27 +466,17 @@
   </main>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="icons.js"></script>
+  <script src="theme.js"></script>
   <script src="app.js"></script>
+  <script>
+    document.querySelectorAll('[data-icon]').forEach((el) => {
+      const name = el.getAttribute('data-icon');
+      if (window.CParserIcons && window.CParserIcons[name]) el.innerHTML = window.CParserIcons[name];
+    });
+  </script>
 
   <script>
-    // Theme toggle
-    const _html = document.documentElement;
-    const _toggle = document.getElementById('theme-toggle');
-    const _themeIcon = document.getElementById('theme-icon');
-
-    function applyTheme(theme) {
-      _html.setAttribute('data-theme', theme);
-      _themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
-      localStorage.setItem('cparser-theme', theme);
-    }
-
-    const saved = localStorage.getItem('cparser-theme') || 'dark';
-    applyTheme(saved);
-
-    _toggle.addEventListener('click', () => {
-      applyTheme(_html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
-
     // Grammar panel toggle
     const grammarToggle = document.getElementById('grammar-toggle');
     const grammarBody = document.getElementById('grammar-body');
@@ -481,7 +485,7 @@
     grammarToggle.addEventListener('click', () => {
       const open = grammarBody.style.display === 'none';
       grammarBody.style.display = open ? 'block' : 'none';
-      grammarArrow.textContent = open ? '▼' : '▶';
+      grammarArrow.textContent = open ? '\u25BC' : '\u25B6';
       grammarToggle.setAttribute('aria-expanded', open);
     });
 
@@ -493,7 +497,7 @@
     traceToggle.addEventListener('click', () => {
       const open = traceBody.style.display === 'none';
       traceBody.style.display = open ? 'block' : 'none';
-      traceArrow.textContent = open ? '▼' : '▶';
+      traceArrow.textContent = open ? '\u25BC' : '\u25B6';
       traceToggle.setAttribute('aria-expanded', open);
     });
   </script>

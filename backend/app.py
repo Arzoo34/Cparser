@@ -8,6 +8,7 @@ from lexer.tokenizer import Tokenizer
 from parser.parser import CParser
 from semantic.semantic_analyzer import SemanticAnalyzer
 from icg.icg_generator import ICGGenerator
+from services.judge0_service import execute_code, ExecutionServiceError, SUPPORTED_LANGUAGES
 
 load_dotenv()
 
@@ -26,7 +27,7 @@ def home():
         'message': 'C Parser Visualizer API',
         'phase':   'Phase 4 — Intermediate Code Generation',
         'status':  'running',
-        'endpoints': ['/tokenize', '/parse', '/analyze', '/icg']
+        'endpoints': ['/tokenize', '/parse', '/analyze', '/icg', '/execute']
     })
 
 
@@ -177,6 +178,51 @@ def icg():
         return jsonify({'error': f'ICG failed: {str(e)}'}), 500
 
 
+@app.route('/execute', methods=['POST'])
+def run_code():
+    """Online compiler — proxies code execution to Judge0 CE."""
+    try:
+        data = request.get_json() or {}
+        language = data.get('language')
+        source_code = data.get('source_code')
+        stdin = data.get('stdin', '')
+
+        if not language or source_code is None:
+            return jsonify({
+                'success': False,
+                'error': {
+                    'type': 'validation',
+                    'message': 'Missing required fields: language, source_code',
+                },
+            }), 400
+
+        result = execute_code(language, source_code, stdin)
+        return jsonify(result), 200
+
+    except ExecutionServiceError as e:
+        return jsonify({
+            'success': False,
+            'error': {
+                'type': e.error_type,
+                'message': e.message,
+            },
+            'details': e.details,
+        }), e.status_code
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': {
+                'type': 'api',
+                'message': f'Execution failed: {str(e)}',
+            },
+        }), 500
+
+
+@app.route('/execute/languages', methods=['GET'])
+def execution_languages():
+    return jsonify({'languages': list(SUPPORTED_LANGUAGES)}), 200
+
+
 if __name__ == '__main__':
     host  = os.getenv('HOST', 'localhost')
     port  = int(os.getenv('PORT', 5000))
@@ -184,5 +230,5 @@ if __name__ == '__main__':
 
     print("🚀 Starting C Parser Visualizer API — Phase 4")
     print(f"📍 Running on http://{host}:{port}")
-    print("📝 Endpoints: /tokenize  /parse  /analyze  /icg")
+    print("📝 Endpoints: /tokenize  /parse  /analyze  /icg  /execute")
     app.run(debug=debug, host=host, port=port)

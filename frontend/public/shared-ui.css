@@ -1,0 +1,122 @@
+/* Shared UI — icons & arrows (UTF-8 safe, no emoji fonts required) */
+
+.ui-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
+.ui-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.badge-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* Pipeline / flow arrows */
+.ui-arrow,
+.lhp-arrow,
+.pip-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-3, #a78bfa);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+  opacity: 0.85;
+  min-width: 1.25rem;
+}
+
+.ui-arrow::before,
+.lhp-arrow::before,
+.pip-arrow::before {
+  content: "\2192";
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.learn-hero-pipeline {
+  gap: 0.35rem 0.25rem;
+}
+
+.lhp-step {
+  white-space: nowrap;
+}
+
+/* Section headings with icon */
+.heading-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heading-with-icon .ui-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--accent-3);
+}
+
+/* Learn more buttons */
+.learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.learn-more-btn .ui-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* Resource card icons */
+.res-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--accent-3);
+}
+
+.res-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+/* Theme toggle — SVG only */
+.theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  font-size: 0;
+  line-height: 0;
+}
+
+.theme-toggle-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Status / error inline */
+.ui-status-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--error);
+}
+
+.ui-status-error .ui-icon {
+  width: 1rem;
+  height: 1rem;
+}

@@ -1,6 +1,6 @@
 # 🚀 C Parser Visualizer
 
-An educational web-based tool for visualizing C code compilation phases, starting with **Phase 1: Lexical Analysis**.
+An educational web platform for **C compiler phase visualization** and an integrated **online multi-language code editor**.
 
 [![GitHub](https://img.shields.io/badge/GitHub-omi290%2FCparser-blue)](https://github.com/omi290/Cparser)
 [![Python](https://img.shields.io/badge/Python-3.8+-green)](https://www.python.org/)
@@ -11,18 +11,26 @@ An educational web-based tool for visualizing C code compilation phases, startin
 
 ## 📖 Overview
 
-C Parser Visualizer is an interactive educational tool designed to help students and developers understand the compilation process of C programs. The application breaks down C code into its fundamental components and visualizes each compilation phase.
+**C Parser Visualizer** is the core app: visualize lexical analysis, parsing, semantic analysis, and intermediate code generation for C programs.
 
-### Current Features (Phase 1: Lexical Analysis)
+**Online Compiler** (integrated from the code-editor project) adds a full IDE: write code in multiple languages, run it, view output, and analyze time complexity — reachable from the navbar on every page.
 
-- ✅ **Tabbed Interface**: Switch between Lexical, Semantic, and Syntax Analysis phases
-- ✅ **Lexical Analysis**: Tokenize C code into keywords, identifiers, numbers, operators, and separators
-- ✅ **Visual Token Table**: Display tokens with type, value, and line number
-- ✅ **Colored Token Stream**: Syntax-highlighted token visualization
-- ✅ **Real-time Processing**: Instant tokenization via Flask API
-- ✅ **Modern UI**: Dark-themed, responsive interface with smooth animations
-- 🚧 **Semantic Analysis**: Coming Soon (Phase 2)
-- 🚧 **Syntax Analysis**: Coming Soon (Phase 3)
+### C Compiler Visualizer
+
+- ✅ Lexical analysis — token table and colored token stream
+- ✅ Syntax analysis — parse tree / AST visualization
+- ✅ Semantic analysis — symbol table and type checking
+- ✅ Intermediate code generation — three-address code and quadruples
+- ✅ Pipeline animations and parser trace
+- ✅ Learn guide for all 7 compiler phases (`learn.html`)
+
+### Online Compiler (integrated code editor)
+
+- ✅ Multi-language editor (JavaScript, Python, C, C++, Java, TypeScript, C#, PHP)
+- ✅ Run code via Judge0 CE API (proxied through Flask) with stdin support
+- ✅ Output panel with error highlighting
+- ✅ Time / space complexity analysis with charts
+- ✅ Navigation link back to the C compiler visualizer
 
 ### Supported C Subset
 
@@ -104,19 +112,35 @@ npm run dev
 ```
 ✅ App runs on: http://localhost:3000
 
-**Open your browser:** http://localhost:3000
+**Open in your browser:**
+
+| Page | URL |
+|------|-----|
+| Home (landing page) | http://localhost:3000/ |
+| C Parser Visualizer | http://localhost:3000/visualizer.html |
+| Compiler design guide | http://localhost:3000/learn.html |
+| Online Compiler | http://localhost:3000/editor.html |
+
+Use **Online Compiler** in the top navigation on any page to switch to the code editor.
 
 ---
 
 ## 📖 Usage
 
-1. **Write C code** in the left panel editor
-2. **Click "Visualize Tokens"** to process the code
-3. **Switch tabs** to view different analysis phases:
-   - **Lexical Analysis** (Active) - View tokenized output
-   - **Semantic Analysis** (Coming Soon)
-   - **Syntax Analysis** (Coming Soon)
-4. **View results** in the token table and colored stream
+### C Parser Visualizer
+
+1. Open **visualizer.html**
+2. Enter C code in the editor (or use sample snippets)
+3. Click **Analyze** to run the full pipeline
+4. Switch tabs: Lexical → Syntax → Semantic → ICG
+
+### Online Compiler
+
+1. Open **editor.html** (or click **Online Compiler** in the navbar)
+2. Pick a language, write code, optionally add stdin
+3. Click **Run Code** — output appears on the right
+4. Click **Analysis** for complexity charts and runtime stats
+5. Use **Compiler Visualizer** in the header to return to the C parser tool
 
 ### Example
 
@@ -139,29 +163,26 @@ int main() {
 
 ```
 Cparser/
-├── backend/                 # Flask API Server
-│   ├── lexer/              # Tokenizer implementation
-│   │   ├── __init__.py
-│   │   ├── token_types.py  # Token definitions
-│   │   └── tokenizer.py    # Lexical analyzer
-│   ├── app.py              # Flask application
-│   ├── .env.example        # Environment template
-│   ├── requirements.txt    # Python dependencies
-│   ├── setup.bat           # Setup script
-│   └── run.bat             # Quick start script
+├── backend/                    # Flask API (C parser visualizer)
+│   ├── lexer/
+│   ├── app.py
+│   └── requirements.txt
 │
-├── frontend/               # React Application
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── pages/          # Page components
-│   │   ├── services/       # API service
-│   │   └── styles/         # CSS styles
-│   ├── .env.example        # Environment template
-│   ├── package.json        # Node dependencies
-│   └── vite.config.js      # Vite configuration
+├── frontend/                   # Unified frontend (Vite multi-page)
+│   ├── index.html              # Landing homepage (React)
+│   ├── learn.html              # Compiler design learning guide
+│   ├── visualizer.html         # C parser visualizer
+│   ├── editor.html             # Online compiler (React)
+│   ├── public/app.js           # Visualizer client logic
+│   ├── style.css / learn.css
+│   ├── src/                    # React app for online compiler
+│   │   ├── components/         # CodeEditor, Output, Analysis
+│   │   └── utils/              # Complexity analyzer
+│   ├── package.json
+│   └── vite.config.js
 │
-├── .gitignore              # Git ignore rules
-└── README.md               # This file
+├── Code-Editor/                # Original editor repo (reference only)
+└── README.md
 ```
 
 ---
@@ -178,7 +199,16 @@ FLASK_DEBUG=True
 ### Frontend (.env)
 ```env
 VITE_API_BASE_URL=http://localhost:5000
+VITE_API_TIMEOUT_MS=65000
 ```
+
+### Backend — Online Compiler (Judge0 CE)
+```env
+JUDGE0_BASE_URL=https://ce.judge0.com
+JUDGE0_TIMEOUT_SECONDS=60
+```
+
+No API key is required for the public Judge0 CE instance. The backend proxies execution to avoid browser CORS issues.
 
 ---
 

@@ -35,7 +35,7 @@
   --tok-unknown: #fbbf24;
 
   --nav-bg: rgba(8, 12, 30, 0.95);
-  --theme-icon: '☀️';
+  --theme-icon: '';
   --shadow-card: 0 4px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -73,7 +73,7 @@
   --tok-unknown: #b45309;
 
   --nav-bg: rgba(243, 246, 255, 0.97);
-  --theme-icon: '🌙';
+  --theme-icon: '';
   --shadow-card: 0 4px 24px rgba(79, 70, 229, 0.1);
 }
 
@@ -1353,9 +1353,19 @@ body[data-theme="light"] {
 }
 
 .pip-arrow {
-  color: var(--text-faint);
-  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-3);
+  font-size: 1rem;
+  font-weight: 600;
   user-select: none;
+  min-width: 1.25rem;
+  opacity: 0.85;
+}
+
+.pip-arrow:empty::before {
+  content: "\2192";
 }
 
 /* Sample code buttons */

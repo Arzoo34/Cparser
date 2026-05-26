@@ -23,7 +23,9 @@
 }
 
 .learn-hero-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.35rem 1rem;
   background: rgba(99, 102, 241, 0.15);
   border: 1px solid rgba(99, 102, 241, 0.35);
@@ -86,9 +88,17 @@
 }
 
 .lhp-arrow {
-  color: var(--text-faint);
-  font-size: 0.85rem;
+  color: var(--accent-3);
+  font-size: 0.9rem;
+  font-weight: 600;
   user-select: none;
+  opacity: 0.9;
+  min-width: 1.1rem;
+  text-align: center;
+}
+
+.lhp-arrow:empty::before {
+  content: "\2192";
 }
 
 /* Main container */
